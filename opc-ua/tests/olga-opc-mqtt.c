@@ -74,7 +74,8 @@ static void manuallyPublish(UA_Server *server, UA_NodeId writerGroupIdent) {
 
 UA_UInt32 dataReceived = 0;
 
-#define PAYLOAD_SIZE 281//10240
+//#define PAYLOAD_SIZE 278// For binary
+#define PAYLOAD_SIZE 31 // 31 bytes for binary encoding and 281 for JSON
 #define PARALLEL_FORWARD 1//10
 #define RUNS 100
 
@@ -191,8 +192,8 @@ addWriterGroup(UA_Server *server) {
     writerGroupConfig.writerGroupId = 100;
     
     /* Choose the encoding, UA_PUBSUB_ENCODING_JSON is available soon */
-    writerGroupConfig.encodingMimeType = UA_PUBSUB_ENCODING_JSON;
-    //writerGroupConfig.encodingMimeType = UA_PUBSUB_ENCODING_UADP;
+    //writerGroupConfig.encodingMimeType = UA_PUBSUB_ENCODING_JSON;
+    writerGroupConfig.encodingMimeType = UA_PUBSUB_ENCODING_UADP;
     
     UA_BrokerWriterGroupTransportDataType brokerTransportSettings;
     memset(&brokerTransportSettings, 0, sizeof(UA_BrokerWriterGroupTransportDataType));
@@ -275,12 +276,13 @@ static void stopHandler(int sign) {
 /* Periodically refreshes the MQTT stack (sending/receiving) */
 static void
 mqttYieldPollingCallback(UA_Server *server, UA_PubSubConnection *connection) {
-    connection->channel->yield(connection->channel);
+    //connection->channel->yield(connection->channel);
 
-    struct mqtt_client* client = ((UA_PubSubChannelDataMQTT *)connection->channel->handle)->mqttClient;
+    //struct mqtt_client* client = ((UA_PubSubChannelDataMQTT *)connection->channel->handle)->mqttClient;
     //void (*publish_response_callback)(void** state, struct mqtt_response_publish *publish);
 }
 
+// OK: Standard callback, but is not called with hacked MQTT client
 static void callback(UA_ByteString *encodedBuffer, UA_ByteString *topic){
      UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Message Received");
      
@@ -301,12 +303,23 @@ static void callback(UA_ByteString *encodedBuffer, UA_ByteString *topic){
      //UA_NetworkMessage_deleteMembers(&dst);
 }
 
+// OK: Our custom callback implementation to hack API
 static void testCallback
 (void** state, struct mqtt_response_publish *publish) {
     dataReceived += publish->application_message_size;
-    UA_ByteString str = UA_BYTESTRING_ALLOC(publish->application_message);
+    UA_ByteString encodedBuffer = UA_BYTESTRING_ALLOC(publish->application_message);
 
-    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Message Received, test size %d", str.length);
+//    UA_NetworkMessage dst;
+//    UA_StatusCode ret = UA_NetworkMessage_decodeJson(&dst, &encodedBuffer);
+//    //ret = UA_NetworkMessage_decodeBinary(&encodedBuffer, publish->application_message_size, &dst);
+//    if( ret == UA_STATUSCODE_GOOD){
+//
+//    }
+
+
+    //UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Message Received, test size %d", encodedBuffer.length);
+    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Message Received, test size %zu",
+            publish->application_message_size);
 }
 
 static void testStateCallback (){
@@ -345,6 +358,7 @@ addSubscription(UA_Server *server, UA_PubSubConnection *connection){
                            UA_StatusCode_name(rv));
     }
 
+    // OK: Here we hack API and get MQTT client out of it to subscribe custom callback
     customClient = ((UA_PubSubChannelDataMQTT *)connection->channel->handle)->mqttClient;
     customClient->publish_response_callback = testCallback;
     customClient->publish_response_callback_state = testStateCallback;
@@ -393,17 +407,16 @@ int main(int argc, char **argv) {
 
     //addClientSubscription(server);
 
+    // OK: Normal way to start server with built-in processing loop and callbacks
     //retval |= UA_Server_run(server, &running);
-/**/
+
+    // OK: Running one-thread server in "iterative" or step-by-step mode with custom processing loop
     UA_Server_run_startup(server);
     UA_Server_run_iterate(server, false);
     uint64_t elapsedTime[RUNS];
 
     for (unsigned int k = 0; k < RUNS && running; k++) {
-
-
         bool success = false;
-
         unsigned int timeoutMicros = 500 * 1000;
         uint64_t start_time;
         do {
@@ -412,21 +425,20 @@ int main(int argc, char **argv) {
             start_time = get_microseconds();
             for (unsigned int i = 0; i < PARALLEL_FORWARD; i++) {
                 //manuallyPublish(server, writerGroupIdent[i]);
+
+                // OK: We do yet ONLY ONE parallel forward (multiple server commands)
                 manuallyPublish(server, writerGroupIdent);
             }
 
             while (running && !success && (get_microseconds() - start_time) < timeoutMicros) {
-                // HACK: connection->channel->receive used in original method is not supported with OPC UA MQTT
-                // subscriptionPollingCallback(server, connection);
+                // OK: trigger processing of server events for MQTT
+                connection->channel->yield(connection->channel);
 
                 success = dataReceived == PARALLEL_FORWARD * PAYLOAD_SIZE;
-                UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_USERLAND, "Check data received %d vs %d", dataReceived, PARALLEL_FORWARD * PAYLOAD_SIZE);
+                //UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_USERLAND, "Check data received %d vs %d", dataReceived, PARALLEL_FORWARD * PAYLOAD_SIZE);
 
-                if (!success) {
+                if (!success)
                     usleep(10);
-                    // HACK: Instead we trigger OPC UA server updated manually
-                    UA_Server_run_iterate(server, false);
-                }
             }
             if (!success) {
                 printf("TIMEOUT! Only got %d of %d bytes\n", dataReceived, PARALLEL_FORWARD * PAYLOAD_SIZE);
