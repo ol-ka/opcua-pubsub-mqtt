@@ -51,6 +51,7 @@ sudo service stop mosquitto
 sudo service start mosquitto
 ```
 
+
 ### Development with mosquitto
 It is recommended to use mosquitto with logging turned on from terminal/command line to understand connections and pub/sub events during development. To achive it stop service and run mosquitto with logging manually:
 
@@ -58,3 +59,5 @@ It is recommended to use mosquitto with logging turned on from terminal/command 
 sudo service stop mosquitto &&
 mosquitto -v
 ```
+Run 'olga-opc-mqtt' target configuration from IDE of your choice for debugging. CMake must be configured with option -DTHIRDPARTY=ON
+
