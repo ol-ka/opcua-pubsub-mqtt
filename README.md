@@ -1,38 +1,60 @@
-# Middleware Performance Evaluation
+# OPC UA performance evauluation with MQTT broker
 
-Performance tests for performance evaluation of various middleware implementations (OPC UA, MQTT, DDS, ROS).
+Measuring rount trip time of a published message.
 
-The results can be found in the linked paper: https://mediatum.ub.tum.de/node?id=1470362
-
-
-**If you are using this test suite, please cite our paper:**
-
-Stefan Profanter, Ayhun Tekat, Kirill Dorofeev and Markus Rickert. OPC UA versus ROS, DDS, and MQTT: Performance Evaluation of Industry 4.0 Protocols. In Proceedings of the IEEE International Conference on Industrial Technology (ICIT), Melbourne, Australia, 2019.
+Based on:
+https://github.com/open62541/open62541
+https://mediatum.ub.tum.de/node?id=1470362
 
 
-```latex
-@inproceedings{Profanter2019,
-    author = {Profanter, Stefan and Tekat, Ayhun and Dorofeev, Kirill and Rickert, Markus},
-    title = {OPC UA versus ROS, DDS, and MQTT: Performance Evaluation of Industry 4.0 Protocols},
-    booktitle = {Proceedings of the {IEEE} International Conference on Industrial Technology ({ICIT})},
-    year = {2018},
-    month = feb,
-    address = {Melbourne, Australia}
-}
-```
 
 ## Building
 
 To build with Eprosima FastRTPS, make sure that you are calling CMake with `-DTHIRDPARTY=ON`:
 
 ```sh
-cd middleware_evaluation
+// To build base middleware and OPC UA 
+cd opcua-pubsub-mqtt
 git submodule update --init --recursive
 mkdir build && cd build
 cmake -DTHIRDPARTY=ON ..
-make -j
+make
 ```
 
-## Running the tests
+If dependant submodule open62541 is not in branch mqtt_demo, switch branch for submodule as following, after repear build:
 
-Check the corresponding subfolders for each protocol to see how to start the tests
+```sh
+git submodule deinit libs/open62541   
+git rm libs/open62541
+git commit-m "Removed submodule "
+rm -rf .git/modules/libs/open62541
+
+git submodule add -b mqtt_demo https://github.com/open62541/open62541.git libs/open62541
+```sh
+
+## Running local mosquitto
+
+### Install mosquitto
+
+http://www.steves-internet-guide.com/install-mosquitto-linux/
+
+```sh
+sudo apt-add-repository ppa:mosquitto-dev/mosquitto-ppa &&
+sudo apt-get update &&
+sudo apt-get install mosquitto &&
+sudo apt-get install mosquitto-clients
+```sh
+
+Use command to start or stop mosquitto service:
+```sh
+sudo service stop mosquitto
+sudo service start mosquitto
+```sh
+
+### Development with mosquitto
+It is recommended to use mosquitto with logging turned on from terminal/command line to understand connections and pub/sub events during development. To achive it stop service and run mosquitto with logging manually:
+
+```sh
+sudo service stop mosquitto &&
+mosquitto -v
+```sh
