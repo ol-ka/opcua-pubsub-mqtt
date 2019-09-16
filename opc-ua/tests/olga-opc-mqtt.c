@@ -164,6 +164,7 @@ addDataSetField(UA_Server *server) {
 //    UA_Server_addDataSetField(server, publishedDataSetIdent, &dataSetFieldConfig, &dataSetFieldIdent);
 
     // Here we add variable we are going to publish
+    // OK: Value which we publishing is added here, so it will be x-axis=42
     UA_NodeId dataSetFieldIdent2;
     UA_DataSetFieldConfig dataSetFieldConfig2;
     memset(&dataSetFieldConfig2, 0, sizeof(UA_DataSetFieldConfig));
@@ -274,12 +275,10 @@ static void stopHandler(int sign) {
 }
 
 /* Periodically refreshes the MQTT stack (sending/receiving) */
+// OK: We are not using standard yield callback, we call yield manually from main, just keep it here to be in sync with MQTT tutorial
 static void
 mqttYieldPollingCallback(UA_Server *server, UA_PubSubConnection *connection) {
     //connection->channel->yield(connection->channel);
-
-    //struct mqtt_client* client = ((UA_PubSubChannelDataMQTT *)connection->channel->handle)->mqttClient;
-    //void (*publish_response_callback)(void** state, struct mqtt_response_publish *publish);
 }
 
 // OK: Standard callback, but is not called with hacked MQTT client
@@ -303,30 +302,6 @@ static void callback(UA_ByteString *encodedBuffer, UA_ByteString *topic){
      //UA_NetworkMessage_deleteMembers(&dst);
 }
 
-// OK: Our custom callback implementation to hack API
-static void testCallback
-(void** state, struct mqtt_response_publish *publish) {
-    dataReceived += publish->application_message_size;
-    UA_ByteString encodedBuffer = UA_BYTESTRING_ALLOC(publish->application_message);
-
-//    UA_NetworkMessage dst;
-//    UA_StatusCode ret = UA_NetworkMessage_decodeJson(&dst, &encodedBuffer);
-//    //ret = UA_NetworkMessage_decodeBinary(&encodedBuffer, publish->application_message_size, &dst);
-//    if( ret == UA_STATUSCODE_GOOD){
-//
-//    }
-
-
-    //UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Message Received, test size %d", encodedBuffer.length);
-    UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Message Received, test size %zu",
-            publish->application_message_size);
-}
-
-static void testStateCallback (){
-
-}
-
-struct mqtt_client* customClient;
 
 /* Adds a subscription */
 static void 
@@ -358,11 +333,6 @@ addSubscription(UA_Server *server, UA_PubSubConnection *connection){
                            UA_StatusCode_name(rv));
     }
 
-    // OK: Here we hack API and get MQTT client out of it to subscribe custom callback
-    customClient = ((UA_PubSubChannelDataMQTT *)connection->channel->handle)->mqttClient;
-    customClient->publish_response_callback = testCallback;
-    customClient->publish_response_callback_state = testStateCallback;
-    //void (*publish_response_callback)(void** state, struct mqtt_response_publish *publish);
     return; 
 }
 
