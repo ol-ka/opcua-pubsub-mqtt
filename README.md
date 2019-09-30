@@ -47,8 +47,8 @@ sudo apt-get install mosquitto-clients
 
 Use command to start or stop mosquitto service:
 ```sh
-sudo service stop mosquitto
-sudo service start mosquitto
+sudo service mosquitto stop
+sudo service mosquitto start
 ```
 
 
@@ -56,8 +56,37 @@ sudo service start mosquitto
 It is recommended to use mosquitto with logging turned on from terminal/command line to understand connections and pub/sub events during development. To achive it stop service and run mosquitto with logging manually:
 
 ```sh
-sudo service stop mosquitto &&
+sudo service mosquitto stop &&
 mosquitto -v
 ```
 Run 'olga-opc-mqtt' target configuration from IDE of your choice for debugging. CMake must be configured with option -DTHIRDPARTY=ON
 
+# JSON payload
+## Format
+```js
+{
+  "MessageId": "7FFC8E30-77C3-20F7-87B8-6B966C16F19F",
+  "MessageType": "ua-data",
+  "Messages": [
+    {
+      "DataSetWriterId": 62541,
+      "SequenceNumber": 0,
+      "MetaDataVersion": {
+        "MajorVersion": 2746103942,
+        "MinorVersion": 0
+      },
+      "Timestamp": "2019-09-14T17:56:55.234Z",
+      "Payload": {
+        "x-axis": {
+          "Type": 6,
+          "Body": 42
+        },
+        "Server localtime": {
+          "Type": 13,
+          "Body": "2019-09-14T17:56:55.234Z"
+        }
+      }
+    }
+  ]
+}
+```
