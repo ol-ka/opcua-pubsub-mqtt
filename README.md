@@ -91,11 +91,207 @@ Run 'olga-opc-mqtt' target configuration from IDE of your choice for debugging. 
 }
 ```
 
-# Sample test result
+# Test results
+
+## Test run brokerless
+1. Start client
+```bash
+./middleware_evaluation/build/opc-ua/tests/opcua-multi-ps-client 50000 10001 opc.udp://224.0.0.22
+```
+
+client will publish messages to CLIENT_START_PORT=10001 and subscribe to messages from SEVRER_PORT=50000, client RUNS in 100 iterations, PAYLOAD_SIZE 10240, PARALLEL_FORWARD 10
+
+
+SEVRER_PORT=50000
+CLIENT_START_PORT=10001
+URL=opc.udp://224.0.0.22
+
+2. Start server, server works in echo mode, starts 10 listenders on ports from 10001-10010 and republishes all messages to 50000 
+
+```bash
+./middleware_evaluation/opc-ua/run_multiple_pubsub.sh 10 opc.udp://224.0.0.22:50000
+```
+
+Sample log output
+
+```
+middleware_evaluation/opc-ua$ ./run_multiple_pubsub.sh 10 opc.udp://224.0.0.22:50000
+Starting node 1 with port 10001
+Starting node 2 with port 10002
+Starting node 3 with port 10003
+Starting node 4 with port 10004
+Starting node 5 with port 10005
+WARNING: Could not set process priorityStarting node 6 with port 10006
+Starting node 7 with port 10007
+Starting node 8 with port 10008
+[2019-10-13 13:45:36.011 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+Starting node 9 with port 10009
+Starting node 10 with port 10010
+All instances started. Kill with Ctrl+C
+WARNING: Could not set process priorityWARNING: Could not set process priorityWARNING: Could not set process priorityWARNING: Could not set process priority[2019-10-13 13:45:36.015 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+WARNING: Could not set process priority[2019-10-13 13:45:36.017 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+WARNING: Could not set process priorityWARNING: Could not set process priority[2019-10-13 13:45:36.015 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.015 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.019 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.021 (UTC+0200)] info/userland	PubSub channel requested
+WARNING: Could not set process priority[2019-10-13 13:45:36.016 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.027 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.028 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.029 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.021 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.021 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.030 (UTC+0200)] info/userland	PubSub channel requested
+WARNING: Could not set process priority[2019-10-13 13:45:36.030 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20004/
+[2019-10-13 13:45:36.030 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.030 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.031 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20006/
+[2019-10-13 13:45:36.031 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.032 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20007/
+[2019-10-13 13:45:36.023 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.025 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.026 (UTC+0200)] info/session	Connection 0 | SecureChannel 0 | Session g=00000001-0000-0000-0000-000000000000 | AddNodes: No TypeDefinition for i=15303; Use the default TypeDefinition for the Variable/Object
+[2019-10-13 13:45:36.033 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.026 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.034 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20008/
+[2019-10-13 13:45:36.032 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.034 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.035 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20005/
+[2019-10-13 13:45:36.032 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.032 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20001/
+[2019-10-13 13:45:36.035 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.035 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.035 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20010/
+[2019-10-13 13:45:36.036 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.036 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20009/
+[2019-10-13 13:45:36.036 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20002/
+[2019-10-13 13:45:36.036 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.037 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-13 13:45:36.037 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:20003/
+Subscribe to opc.udp://224.0.0.22:10004 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10006 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10007 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10008 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10005 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10001 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10010 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10009 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10002 and publish to opc.udp://224.0.0.22:50000
+Subscribe to opc.udp://224.0.0.22:10003 and publish to opc.udp://224.0.0.22:50000
+```
+
+## Sample test results for brokerless mode
+
+```bash
+-------------
+Node;Microseconds
+0;1223
+1;1050
+2;958
+3;1072
+4;1938
+5;1083
+6;982
+7;839
+8;903
+9;2385
+10;969
+11;1218
+12;953
+13;916
+14;918
+15;1038
+16;956
+17;3655
+18;1214
+19;1005
+20;947
+21;1368
+22;969
+23;1056
+24;1182
+25;1004
+26;965
+27;879
+28;806
+29;822
+30;733
+31;826
+32;1203
+33;920
+34;822
+35;773
+36;892
+37;872
+38;971
+39;1110
+40;1089
+41;784
+42;923
+43;717
+44;889
+45;979
+46;3508
+47;1172
+48;948
+49;955
+50;938
+51;1041
+52;791
+53;1320
+54;980
+55;1444
+56;1144
+57;1054
+58;846
+59;820
+60;983
+61;1019
+62;821
+63;960
+64;854
+65;786
+66;796
+67;788
+68;802
+69;746
+70;1157
+71;855
+72;974
+73;835
+74;851
+75;3759
+76;1191
+77;771
+78;831
+79;802
+80;838
+81;770
+82;837
+83;746
+84;804
+85;1234
+86;881
+87;960
+88;897
+89;793
+90;728
+91;803
+92;851
+93;758
+94;803
+95;672
+96;927
+97;772
+98;779
+99;798
+---------------
+[2019-10-13 13:12:53.813 (UTC+0200)] warn/userland Total Elapsed = 102.746000ms, Average = 1.037838ms
+```
+## Sample test results for broker mode with MQTT
 
 Sample test result if running application locally with local MQTT broker for RUNS = 100 and PARALLEL_RUNS = 1
 
-```
+```bash
 -------------
 Node;Microseconds
 0;31557
@@ -199,5 +395,5 @@ Node;Microseconds
 98;21473
 99;20453
 ---------------
-[2019-10-12 11:26:11.698 (UTC+0200)] warn/userland	Total Elapsed = 2086.132000ms, Average = 21.072040ms
+[2019-10-12 11:26:11.698 (UTC+0200)] warn/userland Total Elapsed = 2086.132000ms, Average = 21.072040ms
 ```
