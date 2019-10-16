@@ -22,9 +22,5 @@ add_subdirectory(libs/fastrtps)
 
 include_directories(common)
 
-add_subdirectory(mqtt/tests)
+
 add_subdirectory(opc-ua/tests)
-add_subdirectory(dds/tests)
-#add_subdirectory(opendds/tests)
-add_subdirectory(tcp/tests)
-add_subdirectory(udp/tests)
