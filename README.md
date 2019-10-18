@@ -445,3 +445,6 @@ UA_BROKERTRANSPORTQUALITYOFSERVICE_ATLEASTONCE = 2
 UA_BROKERTRANSPORTQUALITYOFSERVICE_ATMOSTONCE = 3
 UA_BROKERTRANSPORTQUALITYOFSERVICE_EXACTLYONCE = 4
 ```
+
+NOTE:  By default MQTT receive and send buffer is set to 2000 bytes, I might need to increase it by editing
+ua_network_pubsub_mqtt.c in ./libs/open62541/plugins/ua_network_pubsub_mqtt.c, line 121
