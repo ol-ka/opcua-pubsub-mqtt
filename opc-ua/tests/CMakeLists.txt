@@ -42,8 +42,8 @@ target_link_libraries(opcua-multi-ps-client open62541)
 add_executable(opcua-perf-ps-server perf-ps-server.c)
 target_link_libraries(opcua-perf-ps-server open62541)
 
-add_executable(olga-opc-mqtt multi-ps-client-mqtt.c)
-target_link_libraries(olga-opc-mqtt open62541)
+add_executable(opcuamqtt-multi-ps-client multi-ps-client-mqtt.c)
+target_link_libraries(opcuamqtt-multi-ps-client open62541)
 
 add_executable(opcuamqtt-perf-ps-client perf-ps-client-mqtt.c)
 target_link_libraries(opcuamqtt-perf-ps-client open62541)

@@ -59,9 +59,9 @@ It is recommended to use mosquitto with logging turned on from terminal/command 
 sudo service mosquitto stop &&
 mosquitto -v
 ```
-Run 'olga-opc-mqtt' target configuration from IDE of your choice for debugging. CMake must be configured with option -DTHIRDPARTY=ON
+Run 'opcuamqtt-multi-ps-client' target configuration from IDE of your choice for debugging. CMake must be configured with option -DTHIRDPARTY=ON
 
-# JSON payload
+# JSON payload sample
 ## Format
 ```js
 {
@@ -91,7 +91,28 @@ Run 'olga-opc-mqtt' target configuration from IDE of your choice for debugging. 
 }
 ```
 
-# Test results
+# Test results payload
+
+Make manual edit, comment logging on line 285 in file `libs/open62541-plugins/ua_network_pubsub_mqtt.cc` and rebuild.
+Logging makes tests run longer
+
+## Test runs with increasing payload and cpu/ram stat
+
+### Test runs brokerless
+
+Make sure variable PROCSTAT is set, sample
+```bash
+export PROCSTAT=/media/psf/Home/git/ERT/olga/middleware_evaluation/linuxprocfs.py
+```
+in build folder run on different machines, or without arguments on local:
+```./opcua-perf-ps-server```
+```./opcua-perf-ps-client```
+
+## Test runs broker
+1. Run mosquitto
+2. Run `opcuamqtt-perf-ps-client`
+
+# Test result multiple publisher/subscriber on same machine
 
 ## Test run brokerless
 1. Start client
@@ -179,7 +200,7 @@ Subscribe to opc.udp://224.0.0.22:10002 and publish to opc.udp://224.0.0.22:5000
 Subscribe to opc.udp://224.0.0.22:10003 and publish to opc.udp://224.0.0.22:50000
 ```
 
-## Sample test results for brokerless mode
+### Sample test results for brokerless mode
 
 ```bash
 -------------
@@ -287,7 +308,7 @@ Node;Microseconds
 ---------------
 [2019-10-13 13:12:53.813 (UTC+0200)] warn/userland Total Elapsed = 102.746000ms, Average = 1.037838ms
 ```
-## Sample test results for broker mode with MQTT
+### Sample test results for broker mode with MQTT
 
 Sample test result if running application locally with local MQTT broker for RUNS = 100 and PARALLEL_RUNS = 1
 
@@ -396,4 +417,31 @@ Node;Microseconds
 99;20453
 ---------------
 [2019-10-12 11:26:11.698 (UTC+0200)] warn/userland Total Elapsed = 2086.132000ms, Average = 21.072040ms
+```
+## Test result using multiple publisher/subscribers on the same machine
+
+1. Use `run_multiple_pubsub_mqtt.sh` and provide first argument - number of mqtt brokers, it will start N brokers
+with incrementing port number, example
+
+```bash
+middleware_evaluation/opc-ua$ ./run_multiple_pubsub_mqtt.sh 100
+```
+
+2. Run client which starts multiple publishers and subscribers
+
+```bash
+./opcuamqtt-multi-ps-client  opc.mqtt://127.0.0.1 1883 30 1024 1
+```
+
+- first argument is URL of MQTT broker machine - opc.mqtt://127.0.0.1
+- 1883 is starting port, so it will start on ports 1883, 1884, 1885, etc. brokers
+- 30 is a number of parallel pub/subs using inside one run, total RUNS = 100
+- 1024 is a payload size
+- 1 is QoS, following QoSes can be used
+
+```
+UA_BROKERTRANSPORTQUALITYOFSERVICE_BESTEFFORT = 1
+UA_BROKERTRANSPORTQUALITYOFSERVICE_ATLEASTONCE = 2
+UA_BROKERTRANSPORTQUALITYOFSERVICE_ATMOSTONCE = 3
+UA_BROKERTRANSPORTQUALITYOFSERVICE_EXACTLYONCE = 4
 ```
