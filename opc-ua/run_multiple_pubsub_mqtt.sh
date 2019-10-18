@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ "$#" -ne 2 ]; then
-    echo "Usage: run_multiple.sh NUMBER_OF_NODES FINAL_ENDPOINT"
+if [ "$#" -ne 1 ]; then
+    echo "Usage: run_multiple.sh NUMBER_OF_MQTT_BROKERS"
     exit 1
 fi
 
@@ -14,24 +14,26 @@ pid_list=()
 run=1
 max_nodes=$1
 final_endpoint=$2
-start_port=10000
+start_port=1882
 
 pkill -f -9 "opcua-perf-ps-server"
 
 run_program () {
     port=$(($start_port + $1))
-    port_tcp=$(($start_port + $1 + 10000))
-    port_fwd=$(($port + 10))
+    # port_tcp=$(($start_port + $1 + 10000))
+    port_fwd=$(($port + 1))
 
     endpoint=""
     if [ $port_fwd -lt $(($start_port + $max_nodes)) ]; then
-        endpoint="opc.udp://224.0.0.22:${port_fwd}"
+        endpoint="opc.mqtt://127.0.0.1:${port_fwd}"
     else
         endpoint=$final_endpoint
     fi
 
-   echo "Starting node $1 with port $port and $port_tcp, endpoint $endpoint and opc.udp://224.0.0.22:$port"
-   $BUILD_DIR/opcua-perf-ps-server $port_tcp $endpoint "opc.udp://224.0.0.22:$port" &
+   # echo "Starting node $1 with port $port, endpoint $endpoint and opc.mqtt://127.0.0.1:$port"
+   # $BUILD_DIR/opcua-perf-ps-server $endpoint "opc.mqtt://127.0.0.1:$port" &
+   echo "running mosquitto -v -p $port"
+   mosquitto -p $port &
 
    pid_list=("${pid_list[@]}" $!)
 }
