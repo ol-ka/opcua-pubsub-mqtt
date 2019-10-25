@@ -28,7 +28,7 @@ also redundant console log makes test slower. Edit `libs/open62541/plugins/ua_ne
 ```
 line 121:   memcpy(channelDataMQTT, &(UA_PubSubChannelDataMQTT){address, 300720,300720, NULL, NULL,&mqttClientId, NULL, NULL, NULL}, sizeof(UA_PubSubChannelDataMQTT)); 
 ```
--comment redundant logging
+- comment redundant logging
 ```
 line 285:    //UA_LOG_INFO(UA_Log_Stdout, UA_LOGCATEGORY_SERVER, "Publish");
 ```
