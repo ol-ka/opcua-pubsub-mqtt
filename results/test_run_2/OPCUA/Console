@@ -1,0 +1,32 @@
+[2019-10-19 14:56:51.266 (UTC+0200)] warn/server	Send a total of 16413
+[======================================================================] 100%  (5000/5000)
+ack_str  16384 average rtt/request=0.13
+ack_str  16384 messages/s=7856.11
+ack_str  16384 257429.13 kB/s (bidirectional sum)
+
+Testing acking with 32768 bytes
+[2019-10-19 14:56:51.266 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:51.266 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:51.267 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:51.267 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:51.267 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:52.061 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:52.061 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:52.061 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:52.061 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:52.062 (UTC+0200)] warn/server	Send a total of 32797
+[2019-10-19 14:56:52.062 (UTC+0200)] warn/server	Send a total of 32797
+[======================================================================] 100%  (5000/5000)
+ack_str  32768 average rtt/request=0.15
+ack_str  32768 messages/s=6477.20
+ack_str  32768 424490.05 kB/s (bidirectional sum)
+
+
+Written results to opcua-ps-2019-10-19_125652_random.csv
+Written results to opcua-ps-2019-10-19_125652_echo.csv
+Written results to opcua-ps-2019-10-19_125652_ack.csv
+[2019-10-19 14:56:52.124 (UTC+0200)] info/network	Shutting down the TCP network layer
+[2019-10-19 14:56:52.124 (UTC+0200)] info/server	PubSub cleanup was called.
+[2019-10-19 14:56:52.124 (UTC+0200)] info/userland	Connection destructor called!
+[2019-10-19 14:56:52.125 (UTC+0200)] info/userland	Connection destructor called!
+[2019-10-19 14:56:52.125 (UTC+0200)] info/userland	WriterGroup destructor called!

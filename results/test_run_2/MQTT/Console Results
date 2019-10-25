@@ -1,0 +1,201 @@
+parallels@parallels-Parallels-Virtual-Platform:/media/psf/Home/git/ERT/olga/middleware_evaluation/cmake-build-debug/opc-ua/tests$ ./opcuamqtt-perf-ps-client 
+[2019-10-19 13:46:01.075 (UTC+0200)] info/userland	PubSub channel requested
+[2019-10-19 13:46:01.085 (UTC+0200)] info/server	Mqtt (and Tcp) Connection established.
+[2019-10-19 13:46:01.086 (UTC+0200)] info/server	PubSub Connection register
+[2019-10-19 13:46:01.088 (UTC+0200)] info/network	TCP network layer listening on opc.tcp://parallels-Parallels-Virtual-Platform:16660/
+Testing random repetitions
+[======================================================================] 100%  (100/100)
+
+variable requests average rtt/request=22.24
+
+Testing echoing with 2 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str      2 average rtt/request=21.90
+echo_str      2 messages/s=45.66
+echo_str      2 0.18 kB/s (bidirectional sum)
+
+Testing echoing with 4 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str      4 average rtt/request=22.22
+echo_str      4 messages/s=45.00
+echo_str      4 0.36 kB/s (bidirectional sum)
+
+Testing echoing with 8 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str      8 average rtt/request=22.25
+echo_str      8 messages/s=44.95
+echo_str      8 0.72 kB/s (bidirectional sum)
+
+Testing echoing with 16 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str     16 average rtt/request=22.49
+echo_str     16 messages/s=44.47
+echo_str     16 1.42 kB/s (bidirectional sum)
+
+Testing echoing with 32 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str     32 average rtt/request=23.82
+echo_str     32 messages/s=41.99
+echo_str     32 2.69 kB/s (bidirectional sum)
+
+Testing echoing with 64 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str     64 average rtt/request=23.71
+echo_str     64 messages/s=42.17
+echo_str     64 5.40 kB/s (bidirectional sum)
+
+Testing echoing with 128 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str    128 average rtt/request=23.08
+echo_str    128 messages/s=43.33
+echo_str    128 11.09 kB/s (bidirectional sum)
+
+Testing echoing with 256 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str    256 average rtt/request=22.04
+echo_str    256 messages/s=45.38
+echo_str    256 23.24 kB/s (bidirectional sum)
+
+Testing echoing with 512 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str    512 average rtt/request=22.22
+echo_str    512 messages/s=45.01
+echo_str    512 46.09 kB/s (bidirectional sum)
+
+Testing echoing with 1024 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str   1024 average rtt/request=22.22
+echo_str   1024 messages/s=45.00
+echo_str   1024 92.17 kB/s (bidirectional sum)
+
+Testing echoing with 2048 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str   2048 average rtt/request=22.24
+echo_str   2048 messages/s=44.97
+echo_str   2048 184.18 kB/s (bidirectional sum)
+
+Testing echoing with 4096 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str   4096 average rtt/request=22.24
+echo_str   4096 messages/s=44.97
+echo_str   4096 368.37 kB/s (bidirectional sum)
+
+Testing echoing with 8192 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str   8192 average rtt/request=22.71
+echo_str   8192 messages/s=44.04
+echo_str   8192 721.56 kB/s (bidirectional sum)
+
+Testing echoing with 16384 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str  16384 average rtt/request=23.79
+echo_str  16384 messages/s=42.03
+echo_str  16384 1377.28 kB/s (bidirectional sum)
+
+Testing echoing with 32768 bytes
+[======================================================================] 100%  (5000/5000)
+echo_str  32768 average rtt/request=23.94
+echo_str  32768 messages/s=41.76
+echo_str  32768 2737.06 kB/s (bidirectional sum)
+
+
+Testing acking with 2 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str      2 average rtt/request=22.65
+ack_str      2 messages/s=44.15
+ack_str      2 0.18 kB/s (bidirectional sum)
+
+Testing acking with 4 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str      4 average rtt/request=22.08
+ack_str      4 messages/s=45.30
+ack_str      4 0.36 kB/s (bidirectional sum)
+
+Testing acking with 8 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str      8 average rtt/request=22.24
+ack_str      8 messages/s=44.97
+ack_str      8 0.72 kB/s (bidirectional sum)
+
+Testing acking with 16 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str     16 average rtt/request=22.26
+ack_str     16 messages/s=44.92
+ack_str     16 1.44 kB/s (bidirectional sum)
+
+Testing acking with 32 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str     32 average rtt/request=23.65
+ack_str     32 messages/s=42.28
+ack_str     32 2.71 kB/s (bidirectional sum)
+
+Testing acking with 64 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str     64 average rtt/request=22.40
+ack_str     64 messages/s=44.64
+ack_str     64 5.71 kB/s (bidirectional sum)
+
+Testing acking with 128 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str    128 average rtt/request=22.16
+ack_str    128 messages/s=45.12
+ack_str    128 11.55 kB/s (bidirectional sum)
+
+Testing acking with 256 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str    256 average rtt/request=22.24
+ack_str    256 messages/s=44.97
+ack_str    256 23.03 kB/s (bidirectional sum)
+
+Testing acking with 512 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str    512 average rtt/request=23.67
+ack_str    512 messages/s=42.25
+ack_str    512 43.26 kB/s (bidirectional sum)
+
+Testing acking with 1024 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str   1024 average rtt/request=23.78
+ack_str   1024 messages/s=42.06
+ack_str   1024 86.13 kB/s (bidirectional sum)
+
+Testing acking with 2048 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str   2048 average rtt/request=23.18
+ack_str   2048 messages/s=43.14
+ack_str   2048 176.72 kB/s (bidirectional sum)
+
+Testing acking with 4096 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str   4096 average rtt/request=22.23
+ack_str   4096 messages/s=44.98
+ack_str   4096 368.51 kB/s (bidirectional sum)
+
+Testing acking with 8192 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str   8192 average rtt/request=22.27
+ack_str   8192 messages/s=44.90
+ack_str   8192 735.62 kB/s (bidirectional sum)
+
+Testing acking with 16384 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str  16384 average rtt/request=22.69
+ack_str  16384 messages/s=44.07
+ack_str  16384 1444.19 kB/s (bidirectional sum)
+
+Testing acking with 32768 bytes
+[======================================================================] 100%  (5000/5000)
+ack_str  32768 average rtt/request=23.97
+ack_str  32768 messages/s=41.72
+ack_str  32768 2733.97 kB/s (bidirectional sum)
+
+
+Written results to opcua-ps-2019-10-19_124520_random.csv
+Written results to opcua-ps-2019-10-19_124520_echo.csv
+Written results to opcua-ps-2019-10-19_124520_ack.csv
+[2019-10-19 14:45:20.101 (UTC+0200)] info/network	Shutting down the TCP network layer
+[2019-10-19 14:45:20.102 (UTC+0200)] info/server	PubSub cleanup was called.
+[2019-10-19 14:45:20.102 (UTC+0200)] info/userland	Connection destructor called!
+[2019-10-19 14:45:20.102 (UTC+0200)] info/userland	WriterGroup destructor called!
+[2019-10-19 14:45:20.102 (UTC+0200)] info/server	Disconnect from Mqtt broker
+[2019-10-19 14:45:20.113 (UTC+0200)] info/network	PubSub Connection disconnected.
