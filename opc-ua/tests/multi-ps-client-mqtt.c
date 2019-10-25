@@ -601,7 +601,7 @@ int main(int argc, char **argv) {
 
     for (unsigned int k = 0; k < RUNS && running; k++) {
         bool success = false;
-        unsigned int timeoutMicros = 500 * 1000;
+        unsigned int timeoutMicros = 500 * 10000;
         uint64_t start_time;
         do {
             dataReceived = 0;
